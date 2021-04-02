@@ -38,8 +38,9 @@ import javafx.scene.layout.VBox;
 public class PanneauPraticiens extends Pane {
     
     private VBox root = new VBox() ;
-    private GridPane grid = new GridPane();
-    private TableView table = new TableView();
+    private GridPane grid = new GridPane();  
+    //private TableView table = new TableView();
+    TableView<Praticien> tablePrat = new TableView();
     private ToggleGroup groupe = new ToggleGroup() ;
     private ObservableList<Praticien> olPraticien = FXCollections.observableArrayList() ;
     private List<Praticien> listPraticien ;
@@ -50,8 +51,8 @@ public class PanneauPraticiens extends Pane {
     
     public PanneauPraticiens(){
     super() ;
-        //this.ccc = ModeleGsbRv.getPraticiensHesitants();
-        //
+
+        /*
         try {
             List<Praticien> listPraticien = ModeleGsbRv.getPraticiensHesitants();
             for ( Praticien unPrat : listPraticien ){
@@ -60,7 +61,9 @@ public class PanneauPraticiens extends Pane {
         } catch (ConnexionException ex) {
             Logger.getLogger(PanneauPraticiens.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //
+        */
+        //TableView<Praticien> tablePrat = new TableView();
+        
         root.getChildren().add(new Label("Sélectionner un critère de tri : ")) ;
         root.setStyle("-fx-background-color: white");
         root.setStyle("-fx-font-weight: bold");
@@ -73,42 +76,30 @@ public class PanneauPraticiens extends Pane {
         //+--------------------------------------------------------------------------+//
         //+--------------------------------------------------------------------------+//
         RadioButton rd1 = new RadioButton("Confiance") ;
-        //
             rd1.setOnAction( ( ActionEvent event ) -> {
-                critSelect = rd1.getText() ;
-                rafraichir();
-                //Collections.sort( olPraticien , new ComparateurCoefConfiance() ) ;              
-            }) ;
-        //    
+                this.critSelect = rd1.getText() ;
+                //System.out.println(rd1.getText());
+                rafraichir();              
+            }) ;   
         rd1.setToggleGroup(groupe);
         rd1.setSelected(true);
         //+--------------------------------------------------------------------------+//
         //+--------------------------------------------------------------------------+//
-        
-        
         RadioButton rd2 = new RadioButton("Notoriété") ;
-        //
             rd2.setOnAction( ( ActionEvent event ) -> {
-                critSelect = rd2.getText() ;
+                this.critSelect = rd2.getText() ;
+                //System.out.println(rd2.getText());
                 rafraichir();
-                /*Collections.sort( olPraticien , new ComparateurCoefNotoriete() ) ;
-                Collections.reverse( olPraticien ) ;*/
-            }) ;
-        //        
+            }) ;    
         rd2.setToggleGroup(groupe);
         //+--------------------------------------------------------------------------+//
         //+--------------------------------------------------------------------------+//
-        
-        
         RadioButton rd3 = new RadioButton("Date Visite") ;
-        //
             rd3.setOnAction( ( ActionEvent event ) -> {
-                critSelect = rd3.getText() ;
+                this.critSelect = rd3.getText() ;
+                //System.out.println(rd3.getText());
                 rafraichir();
-                /*Collections.sort( olPraticien , new ComparateurDateVisite() ) ;
-                Collections.reverse( olPraticien ) ;*/
-            }) ;
-        //        
+            }) ;   
         rd3.setToggleGroup(groupe);
         //+--------------------------------------------------------------------------+//
         //+--------------------------------------------------------------------------+//
@@ -116,78 +107,132 @@ public class PanneauPraticiens extends Pane {
         
             //grid.getChildren().addAll(rd1,rd2,rd3) ;
             //root.getChildren().add(grid) ;
-            grid.add(rd1,0,0);
-            grid.add(rd2,1,0);
-            grid.add(rd3,2,0);
-            root.getChildren().add(grid) ;
-        table.setEditable(false);
+        grid.add(rd1,0,0);
+        grid.add(rd2,1,0);
+        grid.add(rd3,2,0);
+        root.getChildren().add(grid) ;
         
-        TableColumn num = new TableColumn("Numéro");
+        //table.setEditable(false);
+        tablePrat.setEditable( false );
+        
+        //+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
+        /*TableColumn num = new TableColumn("Numéro");
         num.setMinWidth(100);
         num.setCellValueFactory(
-                new PropertyValueFactory<Praticien, String>("numero"));
+                new PropertyValueFactory<Praticien, String>("numero"));*/
         
-        TableColumn nom = new TableColumn("Nom");
+        TableColumn<Praticien, Integer> colNumero = new TableColumn<Praticien,Integer>( "Numéro" );
+        colNumero.setMinWidth(100);
+                colNumero.setCellValueFactory(
+                new PropertyValueFactory<>("numero"));
+        //+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------      
+        /*TableColumn nom = new TableColumn("Nom");
         nom.setMinWidth(100);
         nom.setCellValueFactory(
-                new PropertyValueFactory<Praticien, String>("nom"));
+                new PropertyValueFactory<Praticien, String>("nom"));*/
         
-        TableColumn ville = new TableColumn("Ville");
+        TableColumn<Praticien, String> colNom = new TableColumn<Praticien,String>( "Nom" );
+        colNom.setMinWidth(100);
+                colNom.setCellValueFactory(
+                new PropertyValueFactory<>("nom"));
+        //+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
+        /*TableColumn ville = new TableColumn("Ville");
         ville.setMinWidth(100);
         ville.setCellValueFactory(
-                new PropertyValueFactory<Praticien, String>("ville"));
+                new PropertyValueFactory<Praticien, String>("ville"));*/
 
-        rafraichir();
+        TableColumn<Praticien, String> colVille = new TableColumn<Praticien,String>( "Ville" );
+        colVille.setMinWidth(100);
+                colVille.setCellValueFactory(
+                new PropertyValueFactory<>("ville"));
+        //+-------------------------------------------------------------------------
+        //+-------------------------------------------------------------------------
         
-        table.setItems(olPraticien);
+        //rafraichir();
+        //System.out.println(olPraticien.toString());
+        
+        //table.setItems(olPraticien);
         //table.setItems(listPraticien);
         
-        table.getColumns().addAll(num, nom, ville);
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-            root.getChildren().add(table) ;
+        //table.getColumns().addAll(num, nom, ville);
+        tablePrat.getColumns().add(colNumero);
+        tablePrat.getColumns().add(colNom);
+        tablePrat.getColumns().add(colVille);
+        
+        //table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tablePrat.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
+        rafraichir();
+        
+        /*for( int i = 0 ; i < olPraticien.size() ; i++ ){
+            System.out.println(this.olPraticien.get(i));
+        } */   
+            //root.getChildren().add(table) ;
+            root.getChildren().add(tablePrat);
+            
+            //rafraichir();
     }
     
     public void rafraichir(){
+        
+        //+----------------------------------------------------------------------------
         try {
-            ObservableList<Praticien> olPraticien = FXCollections.observableArrayList() ;
-            List<Praticien> listPraticien = ModeleGsbRv.getPraticiensHesitants();
-            for ( Praticien unPrat : listPraticien ){
-                olPraticien.add(unPrat);
-            }
+ 
+            this.listPraticien = ModeleGsbRv.getPraticiensHesitants();
+
+            if( this.olPraticien.toString() == "[]" ){
+                for ( Praticien unPrat : this.listPraticien ){
+                    this.olPraticien.add(unPrat);
+                }
+            }  
+            
         } catch (ConnexionException ex) {
             Logger.getLogger(PanneauPraticiens.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //+----------------------------------------------------------------------------
         
-        /*
-        rd1.setOnAction( ( ActionEvent event ) -> {
-                Collections.sort( olPraticien , new ComparateurDateVisite() ) ;
-            }) ;
-        rd2.setOnAction( ( ActionEvent event ) -> {
-                Collections.sort( olPraticien , new ComparateurCoefNotoriete() ) ;
-                Collections.reverse( olPraticien ) ;
-            }) ;
-        rd3.setOnAction( ( ActionEvent event ) -> {
-                Collections.sort( olPraticien , new ComparateurDateVisite() ) ;
-                Collections.reverse( olPraticien ) ;
-            }) ;*/
-        
-        if( critSelect == rd1.getText() ){
+        if( getCritereTri() == rd1.getText() ){
+            Collections.sort( this.olPraticien , new ComparateurCoefConfiance() ) ;
+            Collections.reverse( this.olPraticien ) ;
+                    /*for( int i = 0 ; i < olPraticien.size() ; i++ ){
+                        System.out.println(this.olPraticien.get(i));
+                    }
+                    System.out.println("\n coef conf+---------------------------------+");*/
+        }
+        else if ( getCritereTri() == rd2.getText() ){
+            Collections.sort( this.olPraticien , new ComparateurCoefNotoriete() ) ;
+            Collections.reverse( this.olPraticien ) ;
+                    /*for( int i = 0 ; i < olPraticien.size() ; i++ ){
+                        System.out.println(this.olPraticien.get(i));
+                    }
+                    System.out.println("\n coef noto+---------------------------------+");*/
+        }
+        else if ( getCritereTri() == rd3.getText() ){
+            Collections.sort( this.olPraticien , new ComparateurDateVisite() ) ;
+            Collections.reverse( this.olPraticien ) ;
+                    /*for( int i = 0 ; i < olPraticien.size() ; i++ ){
+                        System.out.println(this.olPraticien.get(i));
+                    }
+                    System.out.println("\n coef date+---------------------------------+");*/
+        }
+        else {
             Collections.sort( olPraticien , new ComparateurCoefConfiance() ) ;
+            Collections.reverse( this.olPraticien ) ;
         }
-        else if ( critSelect == rd2.getText() ){
-            Collections.sort( olPraticien , new ComparateurCoefNotoriete() ) ;
-            Collections.reverse( olPraticien ) ;
-        }
-        else if ( critSelect == rd3.getText() ){
-            Collections.sort( olPraticien , new ComparateurDateVisite() ) ;
-            Collections.reverse( olPraticien ) ;
-        }
-        else if ( critSelect == null ){
-            Collections.sort( olPraticien , new ComparateurCoefConfiance() ) ;
-        }
-
         
-        table.setItems(olPraticien);
+        //table.setItems(olPraticien);
+        tablePrat.setItems(this.olPraticien);
+        //return olPraticien ;
         
+    }
+    
+    //+-----------------------------------------------------------------------------------------
+    //+-----------------------------------------------------------------------------------------
+    
+    public String getCritereTri(){
+        return this.critSelect ;
     }
 }

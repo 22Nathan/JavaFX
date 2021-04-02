@@ -32,6 +32,18 @@ public class Praticien {
         this.dateDerniereVisite = dateDerniereVisite;
         this.dernierCoefConfiance = dernierCoefConfiance;
     }
+
+    public Praticien(int numero, String nom, String prenom, double coefNotoriete, LocalDate dateDerniereVisite, int dernierCoefConfiance, String ville) {
+        this.numero = numero;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.coefNotoriete = coefNotoriete;
+        this.dateDerniereVisite = dateDerniereVisite;
+        this.dernierCoefConfiance = dernierCoefConfiance;
+        this.ville = ville;
+    }
+    
+    
     
     public int getNumero() {
         return numero;
@@ -93,7 +105,7 @@ public class Praticien {
     
     @Override
     public String toString() {
-        return " [Praticien] numéro : "+this.numero+", nom : "+this.nom+", prenom : "+this.prenom+", coef de notoriété : "+this.coefNotoriete+", coef de confiance : "+this.dernierCoefConfiance+", dernière date : "+this.dateDerniereVisite  ;
+        return " [Praticien] numéro : "+this.numero+", nom : "+this.nom+", prenom : "+this.prenom+", ville : "+this.ville+", coef de notoriété : "+this.coefNotoriete+", coef de confiance : "+this.dernierCoefConfiance+", dernière date : "+this.dateDerniereVisite  ;
     }
     
     
