@@ -18,6 +18,10 @@ public class Visiteur {
     public Visiteur(){
     }
     
+    public Visiteur(String matricule){
+        this.matricule = matricule ;
+    }
+    
     public Visiteur(String matricule , String prenom , String nom){
         this.matricule = matricule ;
         this.nom = nom ;

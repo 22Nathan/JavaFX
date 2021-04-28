@@ -7,6 +7,7 @@ package fr.gsb.rv.dr;
 
 import fr.gsb.rv.dr.entites.Visiteur;
 import fr.gsb.rv.dr.metier.Praticien;
+import fr.gsb.rv.dr.metier.RapportVisite;
 import fr.gsb.rv.dr.technique.Session;
 import fr.gsb.rv.dr.technique.ConnexionBD;
 import fr.gsb.rv.dr.technique.ConnexionException;
@@ -259,6 +260,7 @@ public class Appli extends Application {
      */
     public static void main(String[] args) throws ConnexionException {
         launch(args);
+        /*
         System.out.println("/\nListe des practiciens hésitants-------------------------------------------------------/");
         List<Praticien> prat = ModeleGsbRv.getPraticiensHesitants() ;
         for ( Praticien unPrat : prat ){
@@ -282,6 +284,24 @@ public class Appli extends Application {
                                 System.out.println( unPrat );
         }
         System.out.println("/\n--------------------------------------------------------------------------------------/");
+        */
+        
+        
+        System.out.println("/\n--------------------------------------------------------------------------------------/");
+        System.out.println(" \nLes visiteurs \n");
+        List<Visiteur> listVisiteurs = ModeleGsbRv.getVisiteurs();
+        for ( Visiteur unVis : listVisiteurs ){
+            System.out.println( unVis.toString() );
+        }
+        
+        System.out.println("/\n--------------------------------------------------------------------------------------/");
+        System.out.println(" \nLes rapports visite \n");
+        List<RapportVisite> listRapports = ModeleGsbRv.getRapportVisite( "a17" , 10 , 2020 );
+        if ( listRapports != null ){  
+            for ( RapportVisite unRapport : listRapports ){
+                System.out.println( unRapport.toString() );
+            }
+        }
         
     }
     

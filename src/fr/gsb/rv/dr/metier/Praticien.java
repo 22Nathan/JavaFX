@@ -20,10 +20,16 @@ public class Praticien {
     private LocalDate dateDerniereVisite ;
     private int dernierCoefConfiance ;
     private String ville ;
+    private String codePostal ;
+    private String adresse ;
 
     public Praticien() {
     }
 
+    public Praticien(int numero) {
+        this.numero = numero;
+    }
+    
     public Praticien(int numero, String nom, String prenom, double coefNotoriete, LocalDate dateDerniereVisite, int dernierCoefConfiance) {
         this.numero = numero;
         this.nom = nom;
@@ -41,6 +47,7 @@ public class Praticien {
         this.dateDerniereVisite = dateDerniereVisite;
         this.dernierCoefConfiance = dernierCoefConfiance;
         this.ville = ville;
+        
     }
     
     
@@ -99,6 +106,22 @@ public class Praticien {
 
     public void setVille(String ville) {
         this.ville = ville;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
+    }
+
+    public String getCodePostal() {
+        return codePostal;
     }
 
     
