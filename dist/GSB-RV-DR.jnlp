@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="GSB-RV-DR.jar" size="31847" download="eager" />
+    <jar href="GSB-RV-DR.jar" size="41923" download="eager" />
     <jar href="lib/mysql-connector-java-3.0.10.jar" size="235774" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="GSB-RV-DR" >

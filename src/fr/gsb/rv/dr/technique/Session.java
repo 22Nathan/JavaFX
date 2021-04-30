@@ -14,10 +14,12 @@ import fr.gsb.rv.dr.entites.Visiteur;
 public class Session {
     
     private static Session session = null ;
-    private static Visiteur leVisiteur ; 
+    //private static Visiteur leVisiteur ; 
+    private Visiteur leVisiteur ;
     
     
     private Session(Visiteur visiteur){
+        this.leVisiteur = visiteur ;
     }
     
     public static Session getSession(){
@@ -25,7 +27,9 @@ public class Session {
     }
     
     public static void ouvrir(Visiteur visiteur){
-        session = new Session(visiteur) ;
+        if( session == null ){
+            session = new Session(visiteur) ;
+        }
     }
     
     public static void fermer(){
@@ -33,7 +37,7 @@ public class Session {
     }
     
     public Visiteur getLeVisiteur(){        
-        return this.leVisiteur ;
+        return leVisiteur ;
     }
     
     public static boolean estOuverte(){

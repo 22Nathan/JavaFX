@@ -17,7 +17,7 @@ public class RapportVisite {
     private Praticien lePraticien ;
     private Visiteur leVisiteur ;        
             
-    //
+    /*
     private String matricule = null ;
     private int pra_num = 0 ;
 
@@ -28,7 +28,7 @@ public class RapportVisite {
     public void setPra_num(int pra_num) {
         this.pra_num = pra_num;
     }
-    //
+    */
     
     private int numero ;
     private LocalDate dateVisite ;
@@ -41,6 +41,7 @@ public class RapportVisite {
     public RapportVisite() {
     }
 
+    /*
     public RapportVisite(int numero, LocalDate dateVisite, LocalDate dateRedaction, String bilan, String motif, int coefConfiance, boolean lu) {
         this.numero = numero;
         this.dateVisite = dateVisite;
@@ -49,7 +50,7 @@ public class RapportVisite {
         this.motif = motif;
         this.coefConfiance = coefConfiance;
         this.lu = lu;
-    }
+    }*/
 
     public RapportVisite(Praticien lePraticien, Visiteur leVisiteur, int numero, LocalDate dateVisite, LocalDate dateRedaction, String bilan, String motif, int coefConfiance, boolean lu) {
         this.lePraticien = lePraticien;
@@ -63,6 +64,7 @@ public class RapportVisite {
         this.lu = lu;
     }
 
+    /*
     public RapportVisite(Visiteur leVisiteur, int numero, LocalDate dateVisite, LocalDate dateRedaction, String bilan, String motif, int coefConfiance, boolean lu) {
         this.leVisiteur = leVisiteur;
         this.numero = numero;
@@ -72,10 +74,11 @@ public class RapportVisite {
         this.motif = motif;
         this.coefConfiance = coefConfiance;
         this.lu = lu;
-    }
+    }*/
     
-        public RapportVisite(String matricule, int pra_num , int numero, LocalDate dateVisite, LocalDate dateRedaction, String bilan, String motif, int coefConfiance, boolean lu) {
-        this.matricule = matricule;
+    /*
+    public RapportVisite(String matricule, int pra_num , int numero, LocalDate dateVisite, LocalDate dateRedaction, String bilan, String motif, int coefConfiance, boolean lu) {
+        //this.matricule = matricule;
         this.numero = numero;
         this.dateVisite = dateVisite;
         this.dateRedaction = dateRedaction;
@@ -83,8 +86,10 @@ public class RapportVisite {
         this.motif = motif;
         this.coefConfiance = coefConfiance;
         this.lu = lu;
-        this.pra_num = pra_num ;
-    }
+        //this.pra_num = pra_num ;
+    }*/
+        
+        
 
     public Praticien getLePraticien() {
         return lePraticien;
@@ -93,8 +98,14 @@ public class RapportVisite {
     public Visiteur getLeVisiteur() {
         return leVisiteur;
     }
-    
-    
+
+    public void setLePraticien(Praticien lePraticien) {
+        this.lePraticien = lePraticien;
+    }
+
+    public void setLeVisiteur(Visiteur leVisiteur) {
+        this.leVisiteur = leVisiteur;
+    }
 
     public int getNumero() {
         return numero;
@@ -158,10 +169,17 @@ public class RapportVisite {
         return "RapportVisite{" + "numero=" + numero + ", dateVisite=" + dateVisite + ", dateRedaction=" + dateRedaction + ", bilan=" + bilan + ", motif=" + motif + ", coefConfiance=" + coefConfiance + ", lu=" + lu + '}';
     }*/
 
-    @Override
+    /*@Override
     public String toString() {
         return "RapportVisite { " + "vis_matricule = " + matricule + " | rap_num = " + numero + " | dateVisite = " + dateVisite + " | dateRedaction = " + dateRedaction + " | bilan = " + bilan + " | motif = " + motif + " | coefConfiance = " + coefConfiance + " | pra_num = " + pra_num + " | lu = " + lu + " }";
     }
+    */
+
+    @Override
+    public String toString() {
+        return "RapportVisite{ " + " vis_matricule = " + leVisiteur.getMatricule() + " | rap_num = " + numero + " | dateVisite = " + dateVisite + " | dateRedaction = " + dateRedaction + " | bilan = " + bilan + " | pra_num = " + lePraticien.getNumero() + " | motif = " + motif + " | coefConfiance = " + coefConfiance + " | lu = " + lu + " }";
+    }
+    
     
     
     

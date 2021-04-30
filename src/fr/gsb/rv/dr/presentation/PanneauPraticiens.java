@@ -179,7 +179,7 @@
         public void rafraichir(){
 
             //+----------------------------------------------------------------------------
-            try {
+            /*try {
 
                 this.listPraticien = ModeleGsbRv.getPraticiensHesitants();
 
@@ -191,41 +191,51 @@
 
             } catch (ConnexionException ex) {
                 Logger.getLogger(PanneauPraticiens.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
             //+----------------------------------------------------------------------------
 
             if( getCritereTri() == rd1.getText() ){
-                Collections.sort( this.olPraticien , new ComparateurCoefConfiance() ) ;
-                Collections.reverse( this.olPraticien ) ;
-                        /*for( int i = 0 ; i < olPraticien.size() ; i++ ){
-                            System.out.println(this.olPraticien.get(i));
-                        }
-                        System.out.println("\n coef conf+---------------------------------+");*/
+                try {
+                    List<Praticien> lesPraticiens = ModeleGsbRv.getPraticiensHesitants();
+                    ObservableList<Praticien> list = FXCollections.observableArrayList(lesPraticiens);
+                    Collections.sort( list , new ComparateurCoefConfiance() ) ;
+                    tablePrat.setItems(list);
+                } catch (ConnexionException ex) {
+                    Logger.getLogger(PanneauPraticiens.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             else if ( getCritereTri() == rd2.getText() ){
-                Collections.sort( this.olPraticien , new ComparateurCoefNotoriete() ) ;
-                Collections.reverse( this.olPraticien ) ;
-                        /*for( int i = 0 ; i < olPraticien.size() ; i++ ){
-                            System.out.println(this.olPraticien.get(i));
-                        }
-                        System.out.println("\n coef noto+---------------------------------+");*/
+                try {
+                    List<Praticien> lesPraticiens = ModeleGsbRv.getPraticiensHesitants();
+                    ObservableList<Praticien> list = FXCollections.observableArrayList(lesPraticiens);
+                    Collections.sort( list, new ComparateurCoefNotoriete() ) ;
+                    Collections.reverse( list ) ;
+                    tablePrat.setItems(list);
+                } catch (ConnexionException ex) {
+                    Logger.getLogger(PanneauPraticiens.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             else if ( getCritereTri() == rd3.getText() ){
-                Collections.sort( this.olPraticien , new ComparateurDateVisite() ) ;
-                Collections.reverse( this.olPraticien ) ;
-                        /*for( int i = 0 ; i < olPraticien.size() ; i++ ){
-                            System.out.println(this.olPraticien.get(i));
-                        }
-                        System.out.println("\n coef date+---------------------------------+");*/
+                try {
+                    List<Praticien> lesPraticiens = ModeleGsbRv.getPraticiensHesitants();
+                    ObservableList<Praticien> list = FXCollections.observableArrayList(lesPraticiens);
+                    Collections.sort( list , new ComparateurDateVisite() ) ;
+                    Collections.reverse( list ) ;
+                    tablePrat.setItems(list);
+                } catch (ConnexionException ex) {
+                    Logger.getLogger(PanneauPraticiens.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             else {
-                Collections.sort( olPraticien , new ComparateurCoefConfiance() ) ;
-                Collections.reverse( this.olPraticien ) ;
+                try {
+                    List<Praticien> lesPraticiens = ModeleGsbRv.getPraticiensHesitants();
+                    ObservableList<Praticien> list = FXCollections.observableArrayList(lesPraticiens);
+                    Collections.sort( list , new ComparateurCoefConfiance() ) ;
+                    tablePrat.setItems(list);
+                } catch (ConnexionException ex) {
+                    Logger.getLogger(PanneauPraticiens.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-
-            //table.setItems(olPraticien);
-            tablePrat.setItems(this.olPraticien);
-            //return olPraticien ;
 
         }
 

@@ -10,7 +10,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +87,7 @@ public class ModeleGsbRv {
     //+-------------------------------------------------------------------------------------------+//
     //+-------------------------------------------------------------------------------------------+//
     
-    public static List<Visiteur> getVisiteurs() throws ConnexionException{
+    public static List<Visiteur> getVisiteurs() throws ConnexionException {
     
         List<Visiteur> listVisiteurs = new ArrayList<Visiteur>() ;
         Connection connexion = ConnexionBD.getConnexion() ;
@@ -117,6 +116,7 @@ public class ModeleGsbRv {
     //+-------------------------------------------------------------------------------------------+//
     //+-------------------------------------------------------------------------------------------+//
     
+    /*
     public static List<RapportVisite> getRapportVisite( String matricule , int mois , int annee ) throws ConnexionException{
     
         List<RapportVisite> listRV = new ArrayList<RapportVisite>() ;
@@ -134,6 +134,8 @@ public class ModeleGsbRv {
                 
                 //rapv.getLeVisiteur().setMatricule(matricule);
                 rapv.setMatricule( matricule );
+                //rapv.set
+                //----------------------
                 rapv.setNumero( resultat.getInt( "rap_num" ) );
                 Date date = resultat.getDate( "rap_date_visite" ) ;
                 rapv.setDateVisite( date.toLocalDate() );
@@ -157,6 +159,96 @@ public class ModeleGsbRv {
         }
         
     }
+    */
+    
+    
+    //+-------------------------------------------------------------------------------------------+//
+    //+-------------------------------------------------------------------------------------------+//
+    
+    
+    public static List<RapportVisite> getRapportVisite( String matricule , int mois , int annee ) throws ConnexionException{
+    
+        List<RapportVisite> listRV = new ArrayList<RapportVisite>() ;
+        Connection connexion = ConnexionBD.getConnexion() ;
+        Connection connexionV = ConnexionBD.getConnexion() ;
+        Connection connexionP = ConnexionBD.getConnexion() ;
+        String requete = " select vis_matricule, rap_num, rap_date_visite, rap_bilan, rap_date_saisie, rap_coeff_confiance, "
+                + " pra_num, rap_lu, rap_motif_visite "
+                + " from RapportVisite "
+                + " where vis_matricule = ? "
+                + " and MONTH(rap_date_visite) = ? "
+                + " and YEAR(rap_date_visite) = ? " ;
+        String requeteV = " select vis_matricule, vis_nom, vis_prenom "
+                + " from Visiteur "
+                + " where vis_matricule = ? " ;
+        String requeteP = " select pra_nom, p.pra_num, pra_ville, pra_coefnotoriete, rv.rap_date_visite, "
+                + " rv.rap_coeff_confiance, pra_adresse, pra_prenom, pra_cp "
+                + " from Praticien as p "
+                + " inner join RapportVisite as rv "
+                + " on p.pra_num = rv.pra_num "
+                + " where p.pra_num = ? " ;
+        
+        try {
+            PreparedStatement requetePreparee = (PreparedStatement) connexion.prepareStatement( requete ) ;
+            requetePreparee.setString(1, matricule);
+            requetePreparee.setInt(2, mois);
+            requetePreparee.setInt(3, annee);
+            ResultSet resultat = requetePreparee.executeQuery() ;
+            while(resultat.next()){
+                RapportVisite rapv = new RapportVisite();
+                Visiteur unVisiteur = new Visiteur();
+                Praticien unPraticien = new Praticien();
+                
+                rapv.setNumero( resultat.getInt( "rap_num" ) );
+                rapv.setDateVisite( resultat.getDate( "rap_date_visite" ).toLocalDate() );
+                rapv.setBilan( resultat.getString( "rap_bilan" ) );
+                rapv.setCoefConfiance( resultat.getInt( "rap_coeff_confiance" ) );
+                rapv.setMotif( resultat.getString( "rap_motif_visite" ) );
+                rapv.setDateRedaction( resultat.getDate( "rap_date_saisie" ).toLocalDate() );
+                rapv.setLu( resultat.getBoolean( "rap_lu" ) );
+                
+                //-----------------------
+                PreparedStatement requetePrepareeV = (PreparedStatement) connexionV.prepareStatement( requeteV ) ;
+                requetePrepareeV.setString(1, resultat.getString( "vis_matricule" ));
+                ResultSet resultatV = requetePrepareeV.executeQuery() ;
+                while(resultatV.next()){
+                    unVisiteur.setMatricule( resultatV.getString( "vis_matricule" ) );
+                    unVisiteur.setPrenom( resultatV.getString( "vis_prenom" ) );
+                    unVisiteur.setNom( resultatV.getString( "vis_nom" ) );
+                }               
+                rapv.setLeVisiteur(unVisiteur);
+                
+                //----------------------
+                PreparedStatement requetePrepareeP = (PreparedStatement) connexionP.prepareStatement( requeteP ) ;
+                requetePrepareeP.setInt(1, resultat.getInt( "pra_num" ));
+                ResultSet resultatP = requetePrepareeP.executeQuery() ;
+                while(resultatP.next()){
+                    unPraticien.setNom( resultatP.getString( "pra_nom" ) );
+                    unPraticien.setPrenom( resultatP.getString( "pra_prenom" ) );
+                    unPraticien.setNumero( resultatP.getInt( "pra_num" ) );
+                    unPraticien.setVille( resultatP.getString( "pra_ville" ) );
+                    unPraticien.setCoefNotoriete( resultatP.getDouble( "pra_coefnotoriete" ) );
+                    unPraticien.setDateDerniereVisite( resultatP.getDate( "rap_date_visite" ).toLocalDate() );
+                    unPraticien.setDernierCoefConfiance( resultatP.getInt( "rap_coeff_confiance" ) );
+                    unPraticien.setAdresse( resultatP.getString( "pra_adresse" ) );
+                    unPraticien.setCodePostal( resultatP.getString( "pra_cp" ) );
+                }
+                rapv.setLePraticien(unPraticien);
+                
+                listRV.add(rapv);
+            }
+            
+        } catch( Exception e ){
+            return null ;
+        }
+        return listRV ;
+        
+    }    
+        
+    //+-------------------------------------------------------------------------------------------+//
+    //+-------------------------------------------------------------------------------------------+//
+    
+    
     
     public static void setRapportVisiteLu( String matricule , int numRapport ) throws ConnexionException{
         
@@ -167,9 +259,7 @@ public class ModeleGsbRv {
             PreparedStatement requetePreparee = (PreparedStatement) connexion.prepareStatement( requete ) ;
             requetePreparee.setString( 1 , matricule );
             requetePreparee.setInt( 2 , numRapport );
-            ResultSet resultat = requetePreparee.executeQuery() ;
-            
-            requetePreparee.close() ;
+            requetePreparee.executeUpdate();
  
         }
         catch( Exception e ){

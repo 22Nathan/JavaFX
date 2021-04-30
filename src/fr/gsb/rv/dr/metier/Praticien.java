@@ -49,6 +49,18 @@ public class Praticien {
         this.ville = ville;
         
     }
+
+    public Praticien(int numero, String nom, String prenom, double coefNotoriete, LocalDate dateDerniereVisite, String ville, String codePostal, String adresse) {
+        this.numero = numero;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.coefNotoriete = coefNotoriete;
+        this.dateDerniereVisite = dateDerniereVisite;
+        this.ville = ville;
+        this.codePostal = codePostal;
+        this.adresse = adresse;
+    }
+    
     
     
     

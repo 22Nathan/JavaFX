@@ -91,10 +91,10 @@ public class Appli extends Application {
         //root.getChildren().add(pile) ;
         root.setCenter(pile) ;
         //
-        Scene scene = new Scene( root , 500 , 310 ) ;
+        Scene scene = new Scene( root , 800 , 490 ) ;
         //Scene scene2 = new Scene( pile , 300 , 250 ) ;
         
-        primaryStage.setTitle("Appli") ;
+        primaryStage.setTitle("GSB-RV-DR") ;
         primaryStage.setScene( scene ) ;
         //primaryStage.setScene( scene2 ) ;
         primaryStage.show() ;
@@ -172,6 +172,11 @@ public class Appli extends Application {
                               }
                               if ( vis != null ){
                                  Session.ouvrir(vis);
+                                 primaryStage.setTitle( 
+                                         Session.getSession().getLeVisiteur().getNom().toUpperCase() 
+                                         + " " +
+                                         Session.getSession().getLeVisiteur().getPrenom() );
+                                 
                                  itemSeDeconnecter.setDisable(false) ;
                                  menuRapports.setDisable(false) ;
                                  menuPracticiens.setDisable(false) ;
@@ -180,7 +185,8 @@ public class Appli extends Application {
                                  panneauAccueil.setVisible(false) ;
                                  panneauRapports.setVisible(false) ;
                                  panneauPraticiens.setVisible(false) ;
-                              } else { Session.fermer();
+                              } else { 
+                                     Session.fermer();
                                      Alert alertQuitter = new Alert( Alert.AlertType.ERROR ) ;
                                      alertQuitter.setTitle("Erreur"); 
                                      alertQuitter.setHeaderText("Erreur de connexion");
@@ -201,6 +207,8 @@ public class Appli extends Application {
                 new EventHandler<ActionEvent>(){
                     @Override
                     public void handle( ActionEvent event ){ 
+                        primaryStage.setTitle("GSB-RV-DR") ;
+                        Session.fermer();
                         
                         itemSeDeconnecter.setDisable(true) ;
                         itemSeConnecter.setDisable(false) ;

@@ -13,6 +13,10 @@ import java.util.Comparator;
  * @author developpeur
  */
 public class ComparateurCoefNotoriete implements Comparator<Praticien>{
+    
+    public ComparateurCoefNotoriete(){
+        super();
+    }
 
     @Override
     public int compare(Praticien o1, Praticien o2) {
